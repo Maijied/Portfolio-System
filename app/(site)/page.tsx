@@ -16,45 +16,84 @@ const DISCIPLINES = [
 
 export default async function HomePage() {
   const [artist, projects] = await Promise.all([getArtist(), getProjects()]);
-  const selected = projects.slice(0, 4);
+
+  // Main featured projects strictly corresponding to PDF pages 13, 15, 17, 19
+  const selectedSlugs = ['sleeping-dog', 'cape-buffalo-head', 'female-torso', 'bird-relief'];
+  const selected = selectedSlugs
+    .map((slug) => projects.find((p) => p.slug === slug))
+    .filter(Boolean) as typeof projects;
 
   return (
     <>
       {/* Landing view with interactive 3D Hero Project Showcase */}
-      <section className="gutter relative min-h-[85vh] pb-16 pt-8 md:min-h-[92vh] md:pt-16 flex flex-col justify-between">
-        {/* Interactive 3D Floating Project Carousel */}
-        <div className="absolute inset-x-0 top-[10%] mx-auto h-[55vh] md:h-[68vh] w-full max-w-5xl z-10 pointer-events-auto">
-          <Hero3D className="h-full w-full" />
-        </div>
-
+      <section className="gutter relative min-h-[88vh] pb-16 pt-8 md:min-h-[96vh] md:pt-14 flex flex-col justify-between overflow-hidden">
+        {/* Header Title Block - sits cleanly above 3D stage */}
         <div className="relative z-20 pointer-events-none">
-          <p className="label text-accent font-mono text-xs tracking-widest uppercase">
-            {artist.title} &middot; {artist.location}
-          </p>
+          <div className="flex items-center gap-3">
+            <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
+            <p className="label text-accent font-mono text-xs tracking-widest uppercase">
+              {artist.title} &middot; {artist.location}
+            </p>
+          </div>
           <TextReveal
             as="h1"
             text={artist.name}
-            className="optical-hang mt-4 text-display leading-[0.82] font-display text-ink"
+            className="optical-hang mt-3 text-display leading-[0.84] font-display text-ink"
           />
         </div>
 
-        <div className="editorial-grid relative z-20 mt-20 md:mt-36 pointer-events-none">
-          <div className="col-span-4 md:col-span-6 md:col-start-7 bg-paper/60 backdrop-blur-xs p-4 rounded-lg pointer-events-auto border border-line/30">
-            <p className="text-lead text-ink-soft leading-relaxed font-light">
-              {artist.statementShort}
+        {/* Interactive 3D Floating Project Carousel - positioned gracefully below the title */}
+        <div className="absolute inset-x-0 top-[26%] md:top-[22%] mx-auto h-[48vh] md:h-[62vh] w-full max-w-6xl z-10 pointer-events-auto">
+          <Hero3D className="h-full w-full" />
+          
+          {/* Subtle 3D instruction pill */}
+          <div className="absolute bottom-1 inset-x-0 mx-auto w-fit z-20 pointer-events-none">
+            <span className="caption text-[0.7rem] px-3.5 py-1 rounded-full bg-paper/85 text-ink-soft border border-line/60 backdrop-blur-md shadow-xs">
+              Drag to Orbit 360&deg; &bull; Tap Card to Inspect
+            </span>
+          </div>
+        </div>
+
+        {/* Bottom Editorial Quote & Actions */}
+        <div className="editorial-grid relative z-20 mt-36 md:mt-48 pointer-events-none">
+          <div className="col-span-4 md:col-span-7 md:col-start-6 bg-paper/80 backdrop-blur-md p-5 md:p-6 rounded-xl pointer-events-auto border border-line/50 shadow-sm">
+            <p className="text-lead text-ink font-light leading-relaxed">
+              &ldquo;{artist.statementShort}&rdquo;
             </p>
-            <div className="mt-4 flex items-center gap-4">
+            <div className="mt-5 flex flex-wrap items-center gap-3">
               <MagneticElement strength={0.2}>
                 <Link
-                  href="/work"
-                  className="label text-xs text-paper bg-ink hover:bg-ink/85 px-4 py-2 rounded-full transition-all inline-flex items-center gap-1.5"
+                  href="/portfolio"
+                  className="label text-xs text-paper bg-ink hover:bg-ink/85 px-4 py-2 rounded-full transition-all inline-flex items-center gap-1.5 shadow-sm"
                 >
-                  <span>Explore All Works</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                  </svg>
+                  <span>Interactive Portfolio Reader</span>
                   <span>&rarr;</span>
                 </Link>
               </MagneticElement>
+
+              <Link
+                href="/work"
+                className="label text-xs text-ink bg-paper-warm/60 hover:bg-paper-warm px-4 py-2 rounded-full border border-line/70 transition-all inline-flex items-center gap-1.5"
+              >
+                <span>Selected Works</span>
+              </Link>
+
               <Link href="/about" className="label link-underline text-xs text-mute hover:text-ink">
-                Studio Philosophy
+                About the Artist &rarr;
               </Link>
             </div>
           </div>
@@ -83,12 +122,12 @@ export default async function HomePage() {
       <section className="gutter rule-top pt-16 md:pt-24">
         <div className="editorial-grid mb-12">
           <div className="col-span-4 md:col-span-4">
-            <p className="label text-accent font-mono text-xs">Curated Portfolio</p>
+            <p className="label text-accent font-mono text-xs">Curated Masterpieces</p>
             <h2 className="font-display text-h2 mt-2 text-ink">Selected Works</h2>
           </div>
           <div className="col-span-4 md:col-span-5 md:col-start-8 flex flex-col justify-end">
             <p className="caption text-ink-soft">
-              Highlighting major degree projects, figurative sculptures, animal anatomical studies, and heritage craft works.
+              Highlighting the four central sculptural studies from the academic monograph (PDF pp. 13, 15, 17, 19): Canine Anatomical Study, Cape Buffalo Head, Female Torso in Plaster, and Botanical Bas-Relief.
             </p>
           </div>
         </div>

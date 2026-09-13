@@ -10,6 +10,7 @@ export const site: SiteMeta = {
 
 export const navigation = [
   { label: 'Work', href: '/work' },
+  { label: 'Portfolio', href: '/portfolio' },
   { label: 'About', href: '/about' },
   { label: 'CV', href: '/cv' },
   { label: 'Contact', href: '/contact' },

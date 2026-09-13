@@ -82,6 +82,12 @@ export function Footer({ artist, documents }: Props) {
               </Link>
             </li>
             <li>
+              <Link href="/portfolio" className="label link-underline text-accent font-medium hover:text-ink flex items-center gap-1.5">
+                <span>Portfolio Reader</span>
+                <span className="text-[0.6rem] px-1.5 py-0.2 rounded bg-accent/15 font-mono">NEW</span>
+              </Link>
+            </li>
+            <li>
               <Link href="/work" className="label link-underline text-ink-soft hover:text-ink">
                 Selected Work
               </Link>
@@ -131,21 +137,62 @@ export function Footer({ artist, documents }: Props) {
         </div>
 
         <div className="col-span-4 md:col-span-3">
-          <p className="label text-mute text-xs tracking-wider">Archive Documents</p>
-          <ul className="mt-4 space-y-2 text-xs">
-            {documents.map((document) => (
-              <li key={document.href}>
-                <a
-                  href={document.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
-                  className="label link-underline text-ink-soft hover:text-ink"
-                >
-                  {document.label} &middot; {document.note}
-                </a>
-              </li>
-            ))}
+          <p className="label text-mute text-xs tracking-wider">Archive &amp; Documents</p>
+          <ul className="mt-4 space-y-2.5 text-xs">
+            <li>
+              <Link
+                href="/cv"
+                className="label link-underline text-ink font-medium hover:text-accent flex items-center justify-between"
+              >
+                <span>Curriculum Vitae (Online)</span>
+                <span className="caption text-mute text-[0.65rem]">&rarr;</span>
+              </Link>
+            </li>
+            <li>
+              <a
+                href="/documents/cv.pdf"
+                download="Borshon-Mondol-CV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="label link-underline text-ink-soft hover:text-ink flex items-center justify-between"
+              >
+                <span>CV Document (1-Page A4)</span>
+                <span className="caption text-[0.625rem] px-1.5 py-0.5 rounded border border-line/70 font-mono text-mute">PDF</span>
+              </a>
+            </li>
+            <li>
+              <Link
+                href="/portfolio"
+                className="label link-underline text-ink-soft hover:text-ink flex items-center justify-between"
+              >
+                <span>Interactive Monograph Reader</span>
+                <span className="caption text-accent text-[0.625rem] font-mono">29 pp</span>
+              </Link>
+            </li>
+            <li>
+              <a
+                href="/documents/portfolio.pdf"
+                download="Borshon-Mondol-Portfolio.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="label link-underline text-ink-soft hover:text-ink flex items-center justify-between"
+              >
+                <span>Full Portfolio (A4 Landscape)</span>
+                <span className="caption text-[0.625rem] px-1.5 py-0.5 rounded border border-line/70 font-mono text-mute">PDF</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="/documents/proposal.pdf"
+                download="Borshon-Mondol-Proposal.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="label link-underline text-ink-soft hover:text-ink flex items-center justify-between"
+              >
+                <span>Degree Proposal (3-Page A4)</span>
+                <span className="caption text-[0.625rem] px-1.5 py-0.5 rounded border border-line/70 font-mono text-mute">PDF</span>
+              </a>
+            </li>
           </ul>
 
           <div className="mt-8">

@@ -44,8 +44,10 @@ export default async function CvPage() {
             {download ? (
               <a
                 href={download.href}
-                download
-                className="label text-xs text-paper bg-ink hover:bg-ink/85 px-4 py-2 rounded-full transition-colors inline-flex items-center gap-2"
+                download="Borshon-Mondol-CV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="label text-xs text-paper bg-ink hover:bg-ink/85 px-4 py-2 rounded-full transition-colors inline-flex items-center gap-2 cursor-pointer shadow-xs"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

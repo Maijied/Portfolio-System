@@ -24,33 +24,39 @@ type ProjectCardData = {
   title: string;
   slug: string;
   image: string;
+  subtitle: string;
+  pdfPage: number;
 };
 
+// Main featured projects corresponding to PDF pages 13, 15, 17, 19
 const FEATURED_PROJECTS: ProjectCardData[] = [
   {
-    title: 'Terracotta Head Study',
-    slug: 'terracotta-head',
-    image: '/media/terracotta-head/01.jpg',
+    title: 'Sleeping Dog Study',
+    slug: 'sleeping-dog',
+    image: '/media/sleeping-dog/01.jpg',
+    subtitle: 'Clay Anatomical Study · PDF Page 13',
+    pdfPage: 13,
   },
   {
     title: 'Cape Buffalo Head',
     slug: 'cape-buffalo-head',
     image: '/media/cape-buffalo-head/01.jpg',
+    subtitle: 'Bovine Cranial Bust · PDF Page 15',
+    pdfPage: 15,
   },
   {
-    title: 'Female Torso in Plaster',
+    title: 'Female Torso Study',
     slug: 'female-torso',
     image: '/media/female-torso/01.jpg',
+    subtitle: 'Classical Contrapposto · PDF Page 17',
+    pdfPage: 17,
   },
   {
-    title: 'Sleeping Dog Study',
-    slug: 'sleeping-dog',
-    image: '/media/sleeping-dog/01.jpg',
-  },
-  {
-    title: 'Standing Figure Study',
-    slug: 'standing-figure-study',
-    image: '/media/standing-figure-study/01.jpg',
+    title: 'Bird & Foliage Relief',
+    slug: 'bird-relief',
+    image: '/media/bird-relief/01.jpg',
+    subtitle: 'Deep Bas-Relief Panel · PDF Page 19',
+    pdfPage: 19,
   },
 ];
 
@@ -77,52 +83,60 @@ export default function HeroScene() {
     renderer.domElement.style.cursor = 'grab';
 
     const scene = new Scene();
-    const camera = new PerspectiveCamera(40, 1, 0.1, 100);
-    camera.position.set(0, 0, 5.2);
+    const camera = new PerspectiveCamera(38, 1, 0.1, 100);
+    camera.position.set(0, 0.15, 5.4);
 
-    // Studio lighting
-    const ambientLight = new AmbientLight(0xffffff, 0.75);
+    // Studio museum lighting
+    const ambientLight = new AmbientLight(0xffffff, 0.85);
     scene.add(ambientLight);
 
-    const keyLight = new DirectionalLight(0xffffff, 2.2);
-    keyLight.position.set(-4, 3, 3);
+    const keyLight = new DirectionalLight(0xffffff, 2.4);
+    keyLight.position.set(-3.5, 4, 3.5);
     scene.add(keyLight);
 
-    const rimLight = new DirectionalLight(0xd8b88a, 1.4);
-    rimLight.position.set(4, -2, -1);
+    const rimLight = new DirectionalLight(0xd8b88a, 1.6);
+    rimLight.position.set(3.5, -2, -1.5);
     scene.add(rimLight);
 
-    // Main 3D carousel group
+    // Main 3D carousel group - vertically centered on exhibition stage
     const carouselGroup = new Group();
+    carouselGroup.position.set(0, -0.1, 0);
     scene.add(carouselGroup);
 
     const textureLoader = new TextureLoader();
     const cardMeshes: Mesh[] = [];
     const count = FEATURED_PROJECTS.length;
-    const radius = 2.4;
+    const radius = 2.15;
 
-    const planeGeom = new PlaneGeometry(1.65, 2.2, 1, 1);
+    // Architectural proportioned card: 1.5w x 2.05h
+    const planeGeom = new PlaneGeometry(1.5, 2.05, 1, 1);
 
     FEATURED_PROJECTS.forEach((item, i) => {
       const angle = (i / count) * Math.PI * 2;
       const x = Math.sin(angle) * radius;
-      const z = Math.cos(angle) * radius - 0.4;
+      const z = Math.cos(angle) * radius - 0.35;
 
       const texture = textureLoader.load(item.image);
       texture.colorSpace = SRGBColorSpace;
 
       const material = new MeshStandardMaterial({
         map: texture,
-        roughness: 0.4,
-        metalness: 0.05,
+        roughness: 0.35,
+        metalness: 0.08,
         side: DoubleSide,
       });
 
       const mesh = new Mesh(planeGeom, material);
-      mesh.position.set(x, (i % 2 === 0 ? 0.15 : -0.15), z);
-      // Orient toward center
+      mesh.position.set(x, (i % 2 === 0 ? 0.08 : -0.08), z);
+      // Orient gracefully toward center
       mesh.rotation.y = angle + Math.PI;
-      mesh.userData = { slug: item.slug, title: item.title, initialY: mesh.position.y };
+      mesh.userData = {
+        slug: item.slug,
+        title: item.title,
+        subtitle: item.subtitle,
+        pdfPage: item.pdfPage,
+        initialY: mesh.position.y,
+      };
 
       carouselGroup.add(mesh);
       cardMeshes.push(mesh);
@@ -219,9 +233,11 @@ export default function HeroScene() {
       camera.aspect = clientWidth / clientHeight;
       if (camera.aspect < 1) {
         // Vertical mobile screens: move camera back so cards fit comfortably in view
-        camera.position.z = 6.4;
+        camera.position.z = 6.8;
+        camera.position.y = 0.1;
       } else {
-        camera.position.z = 5.2;
+        camera.position.z = 5.4;
+        camera.position.y = 0.15;
       }
       camera.updateProjectionMatrix();
     };
