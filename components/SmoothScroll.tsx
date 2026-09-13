@@ -17,10 +17,10 @@ export function SmoothScroll() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const instance = new Lenis({
-      duration: 1.1,
-      easing: (t) => 1 - Math.pow(1 - t, 3),
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.4,
+      duration: 1.25,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      wheelMultiplier: 0.85,
+      touchMultiplier: 1.5,
     });
     lenis.current = instance;
 

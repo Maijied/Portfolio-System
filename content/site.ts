@@ -5,8 +5,7 @@ import { artist } from './artist';
 export const site: SiteMeta = {
   title: `${artist.name} — ${artist.title}`,
   description: artist.bioShort,
-  // PLACEHOLDER — set to the real domain before launch.
-  url: 'https://example.com',
+  url: 'https://borshon.lorapok.tech',
 };
 
 export const navigation = [

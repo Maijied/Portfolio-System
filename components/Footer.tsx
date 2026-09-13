@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 import type { Artist } from '@/lib/types';
@@ -8,63 +10,160 @@ type Props = {
 };
 
 export function Footer({ artist, documents }: Props) {
+  const scrollToTop = () => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <footer className="gutter rule-top mt-32 pb-10 pt-12 md:mt-48">
-      <div className="editorial-grid">
+    <footer className="gutter rule-top mt-32 pb-16 pt-16 md:mt-48 bg-paper-warm/30 border-t border-line/60">
+      {/* Top Banner / Invitation to Work */}
+      <div className="editorial-grid pb-14 border-b border-line/40">
+        <div className="col-span-4 md:col-span-7">
+          <span className="label text-accent font-mono text-xs tracking-widest uppercase">
+            Inquiries &amp; Affiliations
+          </span>
+          <h2 className="font-display text-h2 mt-3 text-ink">
+            Let&apos;s shape something together.
+          </h2>
+          <p className="caption mt-3 text-ink-soft max-w-xl">
+            Open for sculpture commissions, academic &amp; institutional affiliations, collaborative studio projects, and exhibition invitations.
+          </p>
+        </div>
+
+        <div className="col-span-4 md:col-span-5 flex flex-col justify-end gap-3 mt-6 md:mt-0">
+          <div className="flex flex-wrap gap-2.5">
+            <a
+              href={`mailto:${artist.email}?subject=Sculpture%20Commission%20Inquiry`}
+              className="label text-xs px-4 py-2 rounded-full bg-ink text-paper hover:bg-ink/80 transition-all inline-flex items-center gap-1.5"
+            >
+              <span>Commission Inquiry</span>
+              <span>&rarr;</span>
+            </a>
+            <a
+              href={`mailto:${artist.email}?subject=Work%20Type%20Invitation`}
+              className="label text-xs px-4 py-2 rounded-full bg-paper border border-line/70 text-ink hover:border-ink transition-all inline-flex items-center gap-1.5"
+            >
+              <span>Work Invitation</span>
+              <span>&rarr;</span>
+            </a>
+            <a
+              href={`mailto:${artist.email}?subject=Studio%20Affiliation%20Inquiry`}
+              className="label text-xs px-4 py-2 rounded-full bg-paper border border-line/70 text-ink hover:border-ink transition-all inline-flex items-center gap-1.5"
+            >
+              <span>Studio Affiliation</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Footer Links */}
+      <div className="editorial-grid mt-14">
         <div className="col-span-4 md:col-span-5">
-          <p className="font-display text-h3 leading-none">{artist.name}</p>
-          <p className="caption mt-3 max-w-[34ch]">{artist.bioShort}</p>
+          <Link href="/" className="font-display text-h3 leading-none block text-ink hover:opacity-80 transition-opacity">
+            {artist.name}
+          </Link>
+          <p className="caption mt-3 max-w-[34ch] text-ink-soft">
+            {artist.title} &middot; {artist.location}
+          </p>
+          <p className="caption mt-1 text-mute">
+            Jagannath University &middot; Fine Arts &amp; 3D Art
+          </p>
         </div>
 
         <div className="col-span-2 md:col-span-2 md:col-start-7">
-          <p className="label text-mute">Contact</p>
-          <ul className="mt-4 space-y-1">
+          <p className="label text-mute text-xs tracking-wider">Navigation</p>
+          <ul className="mt-4 space-y-2 text-xs">
             <li>
-              <a href={`mailto:${artist.email}`} className="link-underline">
-                {artist.email}
-              </a>
+              <Link href="/" className="label link-underline text-ink-soft hover:text-ink">
+                Home
+              </Link>
             </li>
-            {artist.phone ? <li className="text-mute">{artist.phone}</li> : null}
-            <li className="text-mute">{artist.location}</li>
+            <li>
+              <Link href="/work" className="label link-underline text-ink-soft hover:text-ink">
+                Selected Work
+              </Link>
+            </li>
+            <li>
+              <Link href="/about" className="label link-underline text-ink-soft hover:text-ink">
+                About &amp; Practice
+              </Link>
+            </li>
+            <li>
+              <Link href="/cv" className="label link-underline text-ink-soft hover:text-ink">
+                Curriculum Vitae
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="label link-underline text-ink-soft hover:text-ink">
+                Contact
+              </Link>
+            </li>
           </ul>
         </div>
 
         <div className="col-span-2 md:col-span-2">
-          <p className="label text-mute">Elsewhere</p>
-          <ul className="mt-4 space-y-1">
+          <p className="label text-mute text-xs tracking-wider">Elsewhere</p>
+          <ul className="mt-4 space-y-2 text-xs">
             {artist.socials.map((social) => (
               <li key={social.href}>
                 <a
                   href={social.href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="link-underline"
+                  className="label link-underline text-ink-soft hover:text-ink"
                 >
                   {social.label}
                 </a>
               </li>
             ))}
+            <li>
+              <a
+                href={`mailto:${artist.email}`}
+                className="label link-underline text-ink-soft hover:text-ink"
+              >
+                Direct Email
+              </a>
+            </li>
           </ul>
         </div>
 
-        <div className="col-span-4 md:col-span-2">
-          <p className="label text-mute">Documents</p>
-          <ul className="mt-4 space-y-1">
+        <div className="col-span-4 md:col-span-3">
+          <p className="label text-mute text-xs tracking-wider">Archive Documents</p>
+          <ul className="mt-4 space-y-2 text-xs">
             {documents.map((document) => (
               <li key={document.href}>
-                <Link href={document.href} className="link-underline">
-                  {document.label}
+                <Link href={document.href} className="label link-underline text-ink-soft hover:text-ink">
+                  {document.label} &middot; {document.note}
                 </Link>
               </li>
             ))}
           </ul>
+
+          <div className="mt-8">
+            <button
+              type="button"
+              onClick={scrollToTop}
+              className="label text-xs text-mute hover:text-ink flex items-center gap-2 cursor-pointer transition-colors"
+            >
+              <span>Back to Top</span>
+              <span className="text-sm">&uarr;</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <p className="caption mt-16">
-        &copy; {new Date().getFullYear()} {artist.name}. All work shown remains
-        the property of the artist.
-      </p>
+      {/* Bottom Legal bar */}
+      <div className="mt-16 pt-6 border-t border-line/30 flex flex-col md:flex-row items-center justify-between gap-4 text-mute text-xs">
+        <p className="caption">
+          &copy; {new Date().getFullYear()} {artist.name}. All works and sculptures remain the property of the artist.
+        </p>
+        <p className="caption">
+          Dhaka, Bangladesh &middot; UTC+6
+        </p>
+      </div>
     </footer>
   );
 }

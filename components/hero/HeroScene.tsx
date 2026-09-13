@@ -1,28 +1,62 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import {
   AmbientLight,
   DirectionalLight,
-  IcosahedronGeometry,
+  DoubleSide,
+  Group,
   Mesh,
   MeshStandardMaterial,
   PerspectiveCamera,
+  PlaneGeometry,
+  Raycaster,
   Scene,
+  SRGBColorSpace,
+  TextureLoader,
+  Vector2,
+  Vector3,
   WebGLRenderer,
 } from 'three';
 
-/**
- * One restrained form: a faceted mass that turns slowly and leans toward the
- * pointer. Matte, near-monochrome, no reflections. It is here to establish the
- * subject of the practice on arrival, not to perform.
- *
- * Written against three directly rather than a React renderer. The scene has a
- * single static mesh and needs no reconciliation, so a renderer would add a
- * dependency that has to track React's version for no benefit here.
- */
+type ProjectCardData = {
+  title: string;
+  slug: string;
+  image: string;
+};
+
+const FEATURED_PROJECTS: ProjectCardData[] = [
+  {
+    title: 'Terracotta Head Study',
+    slug: 'terracotta-head',
+    image: '/media/terracotta-head/01.jpg',
+  },
+  {
+    title: 'Cape Buffalo Head',
+    slug: 'cape-buffalo-head',
+    image: '/media/cape-buffalo-head/01.jpg',
+  },
+  {
+    title: 'Female Torso in Plaster',
+    slug: 'female-torso',
+    image: '/media/female-torso/01.jpg',
+  },
+  {
+    title: 'Sleeping Dog Study',
+    slug: 'sleeping-dog',
+    image: '/media/sleeping-dog/01.jpg',
+  },
+  {
+    title: 'Standing Figure Study',
+    slug: 'standing-figure-study',
+    image: '/media/standing-figure-study/01.jpg',
+  },
+];
+
 export default function HeroScene() {
   const container = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const element = container.current;
@@ -30,48 +64,97 @@ export default function HeroScene() {
 
     let renderer: WebGLRenderer;
     try {
-      renderer = new WebGLRenderer({ antialias: true, alpha: true });
+      renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     } catch {
-      // No WebGL. The caller's static fallback stays on screen.
       return;
     }
 
+    renderer.outputColorSpace = SRGBColorSpace;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
     element.append(renderer.domElement);
     renderer.domElement.setAttribute('aria-hidden', 'true');
     renderer.domElement.style.display = 'block';
+    renderer.domElement.style.cursor = 'grab';
 
     const scene = new Scene();
-    const camera = new PerspectiveCamera(42, 1, 0.1, 100);
-    camera.position.set(0, 0, 4.2);
+    const camera = new PerspectiveCamera(40, 1, 0.1, 100);
+    camera.position.set(0, 0, 5.2);
 
-    scene.add(new AmbientLight(0xffffff, 0.55));
+    // Studio lighting
+    const ambientLight = new AmbientLight(0xffffff, 0.75);
+    scene.add(ambientLight);
 
-    // Raking key light, matching how the physical work is lit.
-    const key = new DirectionalLight(0xffffff, 2.1);
-    key.position.set(-3.5, 1.2, 2);
-    scene.add(key);
+    const keyLight = new DirectionalLight(0xffffff, 2.2);
+    keyLight.position.set(-4, 3, 3);
+    scene.add(keyLight);
 
-    const fill = new DirectionalLight(0xffffff, 0.35);
-    fill.position.set(2.5, -1.5, -1);
-    scene.add(fill);
+    const rimLight = new DirectionalLight(0xd8b88a, 1.4);
+    rimLight.position.set(4, -2, -1);
+    scene.add(rimLight);
 
-    const geometry = new IcosahedronGeometry(1.35, 1);
-    const material = new MeshStandardMaterial({
-      color: 0xd8d3cc,
-      roughness: 0.92,
-      metalness: 0,
-      flatShading: true,
+    // Main 3D carousel group
+    const carouselGroup = new Group();
+    scene.add(carouselGroup);
+
+    const textureLoader = new TextureLoader();
+    const cardMeshes: Mesh[] = [];
+    const count = FEATURED_PROJECTS.length;
+    const radius = 2.4;
+
+    const planeGeom = new PlaneGeometry(1.65, 2.2, 1, 1);
+
+    FEATURED_PROJECTS.forEach((item, i) => {
+      const angle = (i / count) * Math.PI * 2;
+      const x = Math.sin(angle) * radius;
+      const z = Math.cos(angle) * radius - 0.4;
+
+      const texture = textureLoader.load(item.image);
+      texture.colorSpace = SRGBColorSpace;
+
+      const material = new MeshStandardMaterial({
+        map: texture,
+        roughness: 0.4,
+        metalness: 0.05,
+        side: DoubleSide,
+      });
+
+      const mesh = new Mesh(planeGeom, material);
+      mesh.position.set(x, (i % 2 === 0 ? 0.15 : -0.15), z);
+      // Orient toward center
+      mesh.rotation.y = angle + Math.PI;
+      mesh.userData = { slug: item.slug, title: item.title, initialY: mesh.position.y };
+
+      carouselGroup.add(mesh);
+      cardMeshes.push(mesh);
     });
-    const mass = new Mesh(geometry, material);
-    scene.add(mass);
 
-    const pointer = { x: 0, y: 0 };
+    const raycaster = new Raycaster();
+    const mouse = new Vector2(-100, -100);
+    const pointer = { x: 0, y: 0, targetX: 0, targetY: 0 };
+    let isHoveringCard = false;
+
     const onPointerMove = (event: PointerEvent) => {
-      pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-      pointer.y = -((event.clientY / window.innerHeight) * 2 - 1);
+      const rect = element.getBoundingClientRect();
+      pointer.targetX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.targetY = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
+
+      mouse.x = pointer.targetX;
+      mouse.y = pointer.targetY;
     };
-    window.addEventListener('pointermove', onPointerMove, { passive: true });
+
+    const onClick = () => {
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(cardMeshes);
+      if (intersects.length > 0) {
+        const targetSlug = intersects[0].object.userData.slug;
+        if (targetSlug) {
+          router.push(`/work/${targetSlug}`);
+        }
+      }
+    };
+
+    element.addEventListener('pointermove', onPointerMove, { passive: true });
+    element.addEventListener('click', onClick);
 
     const resize = () => {
       const { clientWidth, clientHeight } = element;
@@ -85,13 +168,12 @@ export default function HeroScene() {
     const observer = new ResizeObserver(resize);
     observer.observe(element);
 
-    // Pause when scrolled away; an idle GPU loop behind the fold is waste.
     let visible = true;
     const visibility = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
       },
-      { threshold: 0 },
+      { threshold: 0 }
     );
     visibility.observe(element);
 
@@ -104,20 +186,34 @@ export default function HeroScene() {
       previous = now;
       if (!visible) return;
 
-      mass.rotation.y += delta * 0.075;
-      mass.rotation.x = Math.sin((now / 1000) * 0.12) * 0.14;
+      // Smooth pointer interpolation
+      pointer.x += (pointer.targetX - pointer.x) * 0.05;
+      pointer.y += (pointer.targetY - pointer.y) * 0.05;
 
-      // Organic subtle breathing
-      const breath = 1 + Math.sin(now / 2200) * 0.022;
-      mass.scale.set(breath, breath, breath);
+      // Continuous slow orbital rotation + pointer parallax
+      carouselGroup.rotation.y += delta * 0.18 + pointer.x * 0.008;
+      carouselGroup.rotation.x = pointer.y * 0.15;
+      carouselGroup.position.x = pointer.x * 0.25;
 
-      // Pointer lean, damped hard so the form never feels like a toy.
-      mass.position.x += (pointer.x * 0.22 - mass.position.x) * 0.025;
-      mass.position.y += (pointer.y * 0.14 - mass.position.y) * 0.025;
+      // Card hovering interaction
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(cardMeshes);
 
-      // Studio raking light reacts dynamically to pointer
-      key.position.x = -3.5 + pointer.x * 2.4;
-      key.position.y = 1.2 + pointer.y * 1.8;
+      isHoveringCard = intersects.length > 0;
+      renderer.domElement.style.cursor = isHoveringCard ? 'pointer' : 'grab';
+
+      cardMeshes.forEach((mesh) => {
+        const isHit = intersects.length > 0 && intersects[0].object === mesh;
+        const targetScale = isHit ? 1.08 : 1.0;
+        mesh.scale.lerp(new Vector3(targetScale, targetScale, targetScale), 0.1);
+
+        // Subtle floating bobbing
+        mesh.position.y = mesh.userData.initialY + Math.sin(now / 1200 + mesh.position.x * 2) * 0.06;
+      });
+
+      // Lighting response
+      keyLight.position.x = -4 + pointer.x * 2.5;
+      keyLight.position.y = 3 + pointer.y * 2.0;
 
       renderer.render(scene, camera);
     };
@@ -127,13 +223,16 @@ export default function HeroScene() {
       cancelAnimationFrame(frame);
       observer.disconnect();
       visibility.disconnect();
-      window.removeEventListener('pointermove', onPointerMove);
-      geometry.dispose();
-      material.dispose();
+      element.removeEventListener('pointermove', onPointerMove);
+      element.removeEventListener('click', onClick);
+      planeGeom.dispose();
+      cardMeshes.forEach((mesh) => {
+        (mesh.material as MeshStandardMaterial).dispose();
+      });
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, []);
+  }, [router]);
 
-  return <div ref={container} className="h-full w-full" />;
+  return <div ref={container} className="h-full w-full select-none" />;
 }

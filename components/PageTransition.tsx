@@ -4,10 +4,10 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 
+import { PageWipe } from '@/components/PageWipe';
+
 /**
- * Route transition. A paper-coloured panel wipes up over the outgoing page and
- * away from the incoming one, which keeps the two views feeling like sheets in a
- * single document rather than separate loads.
+ * Route transition with architectural page wipes.
  */
 export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -17,19 +17,13 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
   return (
     <AnimatePresence mode="wait" initial={false}>
-      <motion.div key={pathname}>
+      <motion.div key={pathname} className="min-h-screen">
+        <PageWipe />
         <motion.div
-          aria-hidden
-          className="pointer-events-none fixed inset-0 z-50 bg-ink"
-          initial={{ scaleY: 1, originY: 0 }}
-          animate={{ scaleY: 0, originY: 0 }}
-          exit={{ scaleY: 1, originY: 1 }}
-          transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
-        />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.25 }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ willChange: 'opacity, transform' }}
         >
           {children}
         </motion.div>

@@ -14,6 +14,7 @@
   --color-mute: #8a8580;
   --color-line: #cfc9c2;
   --color-line-dark: #2a2a2a;
+  --color-accent: #c8a97e;
 
   /* The -loaded variables are supplied by next/font in app/layout.tsx. The
      fallbacks keep the print routes readable if a font ever fails to load. */
@@ -34,6 +35,18 @@
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Studio (dark) theme overrides */
+[data-theme='studio'] {
+  --color-ink: #e8e4df;
+  --color-ink-soft: #d0ccc6;
+  --color-paper: #0a0a0a;
+  --color-paper-warm: #141414;
+  --color-mute: #85807a;
+  --color-line: #2a2725;
+  --color-line-dark: #3a3633;
+  --color-accent: #d8b88a;
 }
 
 /* =============================================================================
@@ -59,6 +72,7 @@
     font-size: var(--text-body);
     line-height: 1.65;
     overflow-x: clip;
+    transition: background-color 0.4s var(--ease-out-expo), color 0.4s var(--ease-out-expo);
   }
 
   ::selection {

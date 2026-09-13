@@ -2,6 +2,7 @@ import { Footer } from '@/components/Footer';
 import { Nav } from '@/components/Nav';
 import { PageTransition } from '@/components/PageTransition';
 import { SmoothScroll } from '@/components/SmoothScroll';
+import { SubscribeModal } from '@/components/SubscribeModal';
 import { getArtist, getDocuments, getNavigation } from '@/lib/content';
 
 export default async function SiteLayout({
@@ -29,6 +30,7 @@ export default async function SiteLayout({
         <main id="main">{children}</main>
         <Footer artist={artist} documents={documents} />
       </PageTransition>
+      <SubscribeModal />
     </>
   );
 }

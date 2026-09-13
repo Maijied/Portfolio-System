@@ -133,16 +133,23 @@ export function CvBody({
       ) : null}
 
       <CvRow label="Skills" compact={isCompact}>
-        <ul className={isCompact ? 'space-y-1.5' : 'space-y-3'}>
+        <div className={isCompact ? 'space-y-1.5' : 'space-y-4'}>
           {artist.skills.map((group) => (
-            <li key={group.label}>
-              <p className="label text-mute">{group.label}</p>
-              <p className={isCompact ? 'mt-0.5 text-[8.5pt]' : 'mt-1'}>
-                {group.items.join(', ')}
-              </p>
-            </li>
+            <div key={group.label} className="border-b border-line/30 pb-3 last:border-0">
+              <p className="label text-mute text-xs">{group.label}</p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {group.items.map((item) => (
+                  <span
+                    key={item}
+                    className="label text-[0.65rem] tracking-wider px-2.5 py-1 rounded-full bg-paper-warm/80 border border-line/50 text-ink"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       </CvRow>
 
       {artist.workshops.length > 0 ? (
@@ -199,6 +206,13 @@ export function CvBody({
             ))}
           </ul>
         </CvRow>
+      ) : null}
+
+      {!isCompact ? (
+        <div className="pt-12 pb-4 border-b border-line/50 flex items-center justify-between text-mute text-xs">
+          <span className="label tracking-widest">End of Curriculum Vitae</span>
+          <span className="caption">All details verified &middot; Jagannath University</span>
+        </div>
       ) : null}
     </div>
   );

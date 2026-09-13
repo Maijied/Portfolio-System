@@ -49,12 +49,14 @@ function StaticFallback() {
   return (
     <div
       aria-hidden
-      className="absolute inset-0 flex items-center justify-center overflow-hidden"
+      className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none"
     >
-      {/* Concentric rules standing in for the mass: same silhouette, no runtime. */}
-      <div className="aspect-square w-[62%] rotate-45 border border-line" />
-      <div className="absolute aspect-square w-[62%] border border-line" />
-      <div className="absolute aspect-square w-[42%] rounded-full border border-line" />
+      {/* Architectural layered cards preview */}
+      <div className="relative w-64 h-80 border border-line/60 bg-paper-warm/40 rotate-[-6deg] shadow-lg backdrop-blur-xs transition-transform" />
+      <div className="absolute w-64 h-80 border border-line bg-paper shadow-2xl rotate-[4deg] flex flex-col justify-end p-6">
+        <span className="label text-mute text-xs">Selected Works</span>
+        <span className="font-display text-h3 text-ink mt-1">Sculpture & Form</span>
+      </div>
     </div>
   );
 }
