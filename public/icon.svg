@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="7" fill="#0a0a0a"/>
+  <!-- Sculptural geometric form in warm gold -->
+  <polygon points="16,5 26,11 26,21 16,27 6,21 6,11" fill="none" stroke="#d8b88a" stroke-width="1.8"/>
+  <line x1="16" y1="5" x2="16" y2="27" stroke="#d8b88a" stroke-width="1.4" opacity="0.8"/>
+  <polyline points="6,11 16,16 26,11" fill="none" stroke="#d8b88a" stroke-width="1.4" opacity="0.8"/>
+  <polyline points="6,21 16,16 26,21" fill="none" stroke="#d8b88a" stroke-width="1.4" opacity="0.8"/>
+</svg>

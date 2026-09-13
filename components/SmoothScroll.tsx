@@ -14,13 +14,20 @@ export function SmoothScroll() {
   const lenis = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    // Detect touch / mobile devices: retain 120Hz native touch scrolling so
+    // touch gestures, momentum, and IntersectionObserver scroll triggers are never hijacked.
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouch) {
+      return;
+    }
+
     const instance = new Lenis({
-      duration: 1.25,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       wheelMultiplier: 0.85,
-      touchMultiplier: 1.5,
     });
     lenis.current = instance;
 

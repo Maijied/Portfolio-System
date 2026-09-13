@@ -60,11 +60,11 @@ export function TextReveal({
 
   return (
     <Component
-      className={`inline-block overflow-hidden ${className}`}
+      className={`inline-block ${className}`}
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: '0px 0px -8% 0px' }}
+      viewport={{ once: true, amount: 0.02 }}
     >
       {items.map((item, index) => (
         <span

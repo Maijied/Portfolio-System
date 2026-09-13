@@ -56,9 +56,9 @@ const pdfBodyMargin = {
 } as const;
 
 const proposalBodyMargin = {
-  top: '22mm',
+  top: '14mm',
   right: '0',
-  bottom: '20mm',
+  bottom: '13mm',
   left: '0',
 } as const;
 
@@ -287,7 +287,7 @@ async function main() {
           landscape: doc.landscape,
           printBackground: true,
           preferCSSPageSize: false,
-          pageRanges: '1-2',
+          pageRanges: '1',
           margin: { top: '0', right: '0', bottom: '0', left: '0' },
         });
 
@@ -303,7 +303,7 @@ async function main() {
             proposalPdfFooter.proposalTitle,
           ),
           footerTemplate,
-          pageRanges: '3-',
+          pageRanges: '2-',
           margin: proposalBodyMargin,
         });
 

@@ -20,14 +20,12 @@ export function Hero3D({ className = '' }: { className?: string }) {
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const wideEnough = window.matchMedia('(min-width: 48rem)').matches;
-
     const connection = (
       navigator as Navigator & { connection?: { saveData?: boolean } }
     ).connection;
     const saveData = connection?.saveData === true;
 
-    setEnabled(!reduced && wideEnough && !saveData);
+    setEnabled(!reduced && !saveData);
   }, []);
 
   // The fallback always renders and the scene overlays it. That way a WebGL

@@ -98,7 +98,7 @@ export function CvProfessional({
             {education ? (
               <div className="cv-pro-entry">
                 <div className="cv-pro-entry-head">
-                  <p className="font-semibold text-ink">{education.degree}</p>
+                  <p className="cv-pro-degree-title">{education.degree}</p>
                   <p className="cv-pro-meta">
                     {education.start} – {education.end}
                   </p>
@@ -137,7 +137,7 @@ export function CvProfessional({
                 {artist.exhibitions.map((ex) => (
                   <div key={ex.title} className="cv-pro-exhibition-item">
                     <div className="cv-pro-entry-head">
-                      <p className="font-semibold text-ink">{ex.title}</p>
+                      <p className="cv-pro-degree-title">{ex.title}</p>
                       <p className="cv-pro-meta">{ex.year}</p>
                     </div>
                     <p className="cv-pro-institution">

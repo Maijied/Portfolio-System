@@ -16,23 +16,23 @@ type Props = {
 
 const variants = {
   'wipe-up': {
-    hidden: { clipPath: 'inset(100% 0% 0% 0%)', y: 30, opacity: 0 },
-    visible: { clipPath: 'inset(0% 0% 0% 0%)', y: 0, opacity: 1 },
+    hidden: { opacity: 0, y: 24 },
+    visible: { opacity: 1, y: 0 },
   },
   'wipe-right': {
-    hidden: { clipPath: 'inset(0% 100% 0% 0%)', opacity: 0 },
-    visible: { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1 },
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0 },
   },
   'curtain': {
-    hidden: { clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)', opacity: 0 },
-    visible: { clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)', opacity: 1 },
+    hidden: { opacity: 0, y: 20, scale: 0.98 },
+    visible: { opacity: 1, y: 0, scale: 1 },
   },
   'fade-up': {
-    hidden: { opacity: 0, y: 36 },
+    hidden: { opacity: 0, y: 28 },
     visible: { opacity: 1, y: 0 },
   },
   'scale-fade': {
-    hidden: { opacity: 0, scale: 0.96, y: 20 },
+    hidden: { opacity: 0, scale: 0.96, y: 16 },
     visible: { opacity: 1, scale: 1, y: 0 },
   },
 };
@@ -50,7 +50,7 @@ export function CinematicReveal({
   children,
   variant = 'fade-up',
   delay = 0,
-  duration = 0.95,
+  duration = 0.85,
   className,
   as = 'div',
 }: Props) {
@@ -68,7 +68,7 @@ export function CinematicReveal({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+      viewport={{ once: true, amount: 0.02 }}
       variants={selectedVariant}
       transition={{
         duration,

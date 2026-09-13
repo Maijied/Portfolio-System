@@ -1,4 +1,10 @@
 /* Shared print foundation — sheets, chrome, section grid, tables. */
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+  --font-display: var(--font-display-loaded, 'Bodoni Moda'), 'Bodoni Moda', 'Times New Roman', Georgia, serif;
+  --font-body: var(--font-body-loaded, 'Inter'), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
 
 @page {
   margin: 0;

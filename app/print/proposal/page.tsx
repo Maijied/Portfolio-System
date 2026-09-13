@@ -1,7 +1,6 @@
 import Image from 'next/image';
 
 import { ProposalCover } from '@/components/print/ProposalCover';
-import { ProposalEditorialCover } from '@/components/print/ProposalEditorialCover';
 import { Sheet } from '@/components/print/Sheet';
 import { getCvArtist, getProposal } from '@/lib/content';
 
@@ -11,7 +10,6 @@ export default async function PrintProposal() {
   return (
     <div className="proposal-print">
       <ProposalCover proposal={proposal} />
-      <ProposalEditorialCover proposal={proposal} artist={artist} />
 
       <Sheet flow className="proposal-print-body">
         <Section number="01" heading="Abstract">
@@ -26,30 +24,30 @@ export default async function PrintProposal() {
         </Section>
 
         {proposal.conceptImage ? (
-          <section className="print-section">
+          <section className="print-section print-concept-section">
             <div className="print-section-label">
               <p className="label text-mute">Concept Visualisation</p>
-              <h3 className="mt-1 text-h3 leading-tight">Spatial Installation Study</h3>
+              <h3 className="mt-0.5 text-h3 leading-tight">Spatial Installation Study</h3>
             </div>
-            <div className="space-y-1.5">
-              <div className="overflow-hidden rounded border border-line bg-paper-warm p-2 shadow-2xs max-w-[135mm] mx-auto">
+            <div className="space-y-0.5">
+              <div className="overflow-hidden rounded border border-line bg-paper-warm p-0.5 shadow-2xs max-w-[65mm] mx-auto">
                 <Image
                   src={proposal.conceptImage.src}
                   alt={proposal.conceptImage.alt}
                   width={1528}
                   height={1664}
-                  className="w-full h-auto max-h-[88mm] object-contain rounded mx-auto"
+                  className="w-full h-auto max-h-[14mm] object-contain rounded mx-auto"
                   priority
                 />
               </div>
-              <p className="caption text-ink-soft text-[7.5pt] italic text-center max-w-[135mm] mx-auto">
+              <p className="caption text-ink-soft text-[5pt] italic text-center max-w-[65mm] mx-auto">
                 {proposal.conceptImage.caption}
               </p>
             </div>
           </section>
         ) : null}
 
-        <Section number="02" heading="Context" breakBefore>
+        <Section number="02" heading="Context">
           {proposal.context.map((paragraph) => (
             <p key={paragraph.slice(0, 40)} className="proposal-body-text">
               {paragraph}
@@ -70,27 +68,31 @@ export default async function PrintProposal() {
           </ol>
         </Section>
 
-        <Section number="04" heading="Methodology" breakBefore>
-          {proposal.methodology.map((block) => (
-            <div key={block.heading} className="print-method-block">
-              <h4>{block.heading}</h4>
-              <div>
-                {block.body.map((paragraph) => (
-                  <p key={paragraph.slice(0, 40)}>{paragraph}</p>
-                ))}
+        <Section number="04" heading="Methodology">
+          <div className="print-methodology-grid">
+            {proposal.methodology.map((block) => (
+              <div key={block.heading} className="print-method-block">
+                <h4>{block.heading}</h4>
+                <div>
+                  {block.body.map((paragraph) => (
+                    <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </Section>
 
+        {/* Start Page 3: Execution Timeline, Budget, Outcomes & Evaluation */}
         <TableSection
           number="05"
           heading="Timeline"
+          breakBefore
           timeline
           columns={
             <>
-              <col style={{ width: '14%' }} />
-              <col style={{ width: '42%' }} />
+              <col style={{ width: '13%' }} />
+              <col style={{ width: '43%' }} />
               <col style={{ width: '44%' }} />
             </>
           }
@@ -122,7 +124,6 @@ export default async function PrintProposal() {
         <TableSection
           number="06"
           heading="Budget"
-          breakBefore
           compact
           columns={
             <>
@@ -219,9 +220,9 @@ function Section({
     <section className={classes}>
       <div className="print-section-label">
         <p className="label text-mute">{number}</p>
-        <h3 className="mt-2 text-h3 leading-tight">{heading}</h3>
+        <h3 className="mt-1 text-h3 leading-tight">{heading}</h3>
       </div>
-      <div className="print-section-body space-y-2">{children}</div>
+      <div className="print-section-body space-y-1.5">{children}</div>
     </section>
   );
 }
@@ -254,7 +255,7 @@ function TableSection({
       <div className="print-table-kicker">
         <div className="print-section-label">
           <p className="label text-mute">{number}</p>
-          <h3 className="mt-2 text-h3 leading-tight">{heading}</h3>
+          <h3 className="mt-1 text-h3 leading-tight">{heading}</h3>
         </div>
       </div>
       <div className="print-section-body">

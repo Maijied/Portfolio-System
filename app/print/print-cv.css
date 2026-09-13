@@ -6,7 +6,7 @@
 
 .cv-print .cv--professional.sheet {
   page: cvPage;
-  padding: 10mm 14mm 10mm;
+  padding: 7mm 12mm 7mm;
   width: 210mm;
   height: 297mm;
   max-height: 297mm;
@@ -14,8 +14,8 @@
   box-sizing: border-box;
   overflow: hidden;
   font-family: var(--font-body);
-  font-size: 7.5pt;
-  line-height: 1.35;
+  font-size: 7.1pt;
+  line-height: 1.28;
   color: var(--color-ink);
   background: #ffffff;
   display: flex;
@@ -32,22 +32,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 6mm;
+  gap: 5mm;
   border-bottom: 1.5px solid var(--color-ink);
-  padding-bottom: 2.8mm;
-  margin-bottom: 2.8mm;
+  padding-bottom: 2.2mm;
+  margin-bottom: 2.2mm;
 }
 
 .cv-print .cv-pro-identity {
   display: flex;
   align-items: center;
-  gap: 4mm;
+  gap: 3.5mm;
   min-width: 0;
 }
 
 .cv-print .cv-pro-avatar-wrap {
-  width: 20mm;
-  height: 20mm;
+  width: 19mm;
+  height: 19mm;
   border-radius: 50%;
   overflow: hidden;
   border: 1.5px solid var(--color-line);
@@ -79,25 +79,25 @@
 
 .cv-print .cv-pro-title {
   font-family: var(--font-body);
-  font-size: 8.5pt;
+  font-size: 8.25pt;
   font-weight: 600;
   color: var(--color-ink-soft);
-  margin-top: 0.6mm;
+  margin-top: 0.5mm;
   margin-bottom: 0;
 }
 
 .cv-print .cv-pro-subtitle {
-  font-size: 7pt;
+  font-size: 6.85pt;
   color: var(--color-mute);
-  margin-top: 0.4mm;
+  margin-top: 0.3mm;
   margin-bottom: 0;
 }
 
 .cv-print .cv-pro-header-contact {
   flex-shrink: 0;
   text-align: right;
-  font-size: 7.25pt;
-  line-height: 1.45;
+  font-size: 7.1pt;
+  line-height: 1.42;
   text-rendering: geometricPrecision;
   letter-spacing: 0;
 }
@@ -123,12 +123,12 @@
 
 /* Professional Summary */
 .cv-print .cv-pro-summary {
-  margin-bottom: 2.5mm;
+  margin-bottom: 2mm;
 }
 
 .cv-print .cv-pro-summary-text {
-  font-size: 7.5pt;
-  line-height: 1.38;
+  font-size: 7.25pt;
+  line-height: 1.35;
   color: var(--color-ink-soft);
   margin: 0;
 }
@@ -137,13 +137,13 @@
 .cv-print .cv-pro-columns {
   display: grid;
   grid-template-columns: 1.48fr 1fr;
-  gap: 5.5mm;
+  gap: 5mm;
   flex: 1;
   align-content: start;
 }
 
 .cv-print .cv-pro-section {
-  margin-top: 2.2mm;
+  margin-top: 1.8mm;
 }
 
 .cv-print .cv-pro-col .cv-pro-section:first-child {
@@ -152,14 +152,14 @@
 
 .cv-print .cv-pro-section-title {
   font-family: var(--font-body);
-  font-size: 6.5pt;
+  font-size: 6.25pt;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-mute);
   border-bottom: 1px solid var(--color-line);
-  padding-bottom: 0.6mm;
-  margin: 0 0 1.5mm;
+  padding-bottom: 0.4mm;
+  margin: 0 0 1.2mm;
 }
 
 /* Projects List */
@@ -170,7 +170,7 @@
 }
 
 .cv-print .cv-pro-project {
-  padding: 0.9mm 0;
+  padding: 0.65mm 0;
   border-bottom: 1px solid var(--color-line);
 }
 
@@ -187,42 +187,48 @@
 }
 
 .cv-print .cv-pro-project-title {
-  font-size: 7.75pt;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 8.5pt;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   color: var(--color-ink);
   margin: 0;
 }
 
 .cv-print .cv-pro-code {
+  font-family: var(--font-body);
+  font-size: 6.5pt;
   font-weight: 500;
   color: var(--color-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .cv-print .cv-pro-project-meta {
-  font-size: 6.75pt;
+  font-size: 6.5pt;
   color: var(--color-mute);
   white-space: nowrap;
   margin: 0;
 }
 
 .cv-print .cv-pro-project-medium {
-  margin: 0.3mm 0 0;
-  font-size: 6.75pt;
+  margin: 0.2mm 0 0;
+  font-size: 6.5pt;
   color: var(--color-mute);
   font-style: italic;
 }
 
 .cv-print .cv-pro-project-detail {
-  margin: 0.3mm 0 0;
-  font-size: 6.85pt;
-  line-height: 1.3;
+  margin: 0.2mm 0 0;
+  font-size: 6.75pt;
+  line-height: 1.28;
   color: var(--color-ink-soft);
 }
 
 .cv-print .cv-pro-project-secondary {
-  margin: 0.3mm 0 0;
-  font-size: 6.6pt;
-  line-height: 1.28;
+  margin: 0.2mm 0 0;
+  font-size: 6.4pt;
+  line-height: 1.25;
   color: var(--color-mute);
 }
 
@@ -234,30 +240,38 @@
   gap: 2mm;
 }
 
+.cv-print .cv-pro-degree-title {
+  font-family: var(--font-display);
+  font-size: 8.25pt;
+  font-weight: 500;
+  color: var(--color-ink);
+  margin: 0;
+}
+
 .cv-print .cv-pro-institution {
-  font-size: 7pt;
+  font-size: 6.85pt;
   color: var(--color-ink-soft);
   margin: 0.2mm 0 0;
 }
 
 .cv-print .cv-pro-meta {
-  font-size: 6.5pt;
+  font-size: 6.4pt;
   color: var(--color-mute);
   white-space: nowrap;
   margin: 0;
 }
 
 .cv-print .cv-pro-detail {
-  font-size: 6.85pt;
-  line-height: 1.3;
+  font-size: 6.75pt;
+  line-height: 1.28;
   color: var(--color-ink-soft);
-  margin-top: 0.4mm;
+  margin-top: 0.3mm;
   margin-bottom: 0;
 }
 
 .cv-print .cv-pro-exhibitions-stack {
   display: grid;
-  gap: 1.2mm;
+  gap: 1mm;
 }
 
 .cv-print .cv-pro-exhibition-item {
@@ -267,7 +281,7 @@
 /* Skills & Proficiencies */
 .cv-print .cv-pro-skills-stack {
   display: grid;
-  gap: 1.4mm;
+  gap: 1.2mm;
 }
 
 .cv-print .cv-pro-skill-group {
@@ -275,7 +289,7 @@
 }
 
 .cv-print .cv-pro-skill-label {
-  font-size: 6.25pt;
+  font-size: 6.1pt;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -285,12 +299,12 @@
 
 .cv-print .cv-pro-skill-items {
   margin: 0;
-  font-size: 7pt;
-  line-height: 1.32;
+  font-size: 6.85pt;
+  line-height: 1.3;
   color: var(--color-ink-soft);
 }
 
 .cv-print .cv-pro-tech-grid {
   display: grid;
-  gap: 1.2mm;
+  gap: 1mm;
 }

@@ -46,8 +46,8 @@ export function ScrollReveal({
       className={className}
       initial={{ opacity: 0, y: distance }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '0px 0px -12% 0px' }}
-      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, amount: 0.02 }}
+      transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </Component>

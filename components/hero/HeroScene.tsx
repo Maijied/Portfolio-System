@@ -142,8 +142,61 @@ export default function HeroScene() {
       mouse.y = pointer.targetY;
     };
 
-    const onClick = () => {
-      raycaster.setFromCamera(mouse, camera);
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isTouching = false;
+    let touchMoved = false;
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        isTouching = true;
+        touchMoved = false;
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (isTouching && e.touches.length > 0) {
+        const deltaX = e.touches[0].clientX - touchStartX;
+        const deltaY = e.touches[0].clientY - touchStartY;
+        if (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6) {
+          touchMoved = true;
+        }
+        carouselGroup.rotation.y += deltaX * 0.007;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      isTouching = false;
+      // If user tapped a card without dragging, navigate on mobile
+      if (!touchMoved && e.changedTouches.length > 0) {
+        const touch = e.changedTouches[0];
+        const rect = element.getBoundingClientRect();
+        const touchMouse = new Vector2(
+          ((touch.clientX - rect.left) / rect.width) * 2 - 1,
+          -(((touch.clientY - rect.top) / rect.height) * 2 - 1)
+        );
+        raycaster.setFromCamera(touchMouse, camera);
+        const intersects = raycaster.intersectObjects(cardMeshes);
+        if (intersects.length > 0) {
+          const targetSlug = intersects[0].object.userData.slug;
+          if (targetSlug) {
+            router.push(`/work/${targetSlug}`);
+          }
+        }
+      }
+    };
+
+    const onClick = (e: MouseEvent) => {
+      const rect = element.getBoundingClientRect();
+      const clickMouse = new Vector2(
+        ((e.clientX - rect.left) / rect.width) * 2 - 1,
+        -(((e.clientY - rect.top) / rect.height) * 2 - 1)
+      );
+      raycaster.setFromCamera(clickMouse, camera);
       const intersects = raycaster.intersectObjects(cardMeshes);
       if (intersects.length > 0) {
         const targetSlug = intersects[0].object.userData.slug;
@@ -154,6 +207,9 @@ export default function HeroScene() {
     };
 
     element.addEventListener('pointermove', onPointerMove, { passive: true });
+    element.addEventListener('touchstart', onTouchStart, { passive: true });
+    element.addEventListener('touchmove', onTouchMove, { passive: true });
+    element.addEventListener('touchend', onTouchEnd, { passive: true });
     element.addEventListener('click', onClick);
 
     const resize = () => {
@@ -161,6 +217,12 @@ export default function HeroScene() {
       if (!clientWidth || !clientHeight) return;
       renderer.setSize(clientWidth, clientHeight, false);
       camera.aspect = clientWidth / clientHeight;
+      if (camera.aspect < 1) {
+        // Vertical mobile screens: move camera back so cards fit comfortably in view
+        camera.position.z = 6.4;
+      } else {
+        camera.position.z = 5.2;
+      }
       camera.updateProjectionMatrix();
     };
     resize();
@@ -224,6 +286,9 @@ export default function HeroScene() {
       observer.disconnect();
       visibility.disconnect();
       element.removeEventListener('pointermove', onPointerMove);
+      element.removeEventListener('touchstart', onTouchStart);
+      element.removeEventListener('touchmove', onTouchMove);
+      element.removeEventListener('touchend', onTouchEnd);
       element.removeEventListener('click', onClick);
       planeGeom.dispose();
       cardMeshes.forEach((mesh) => {

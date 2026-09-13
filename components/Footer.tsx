@@ -135,9 +135,15 @@ export function Footer({ artist, documents }: Props) {
           <ul className="mt-4 space-y-2 text-xs">
             {documents.map((document) => (
               <li key={document.href}>
-                <Link href={document.href} className="label link-underline text-ink-soft hover:text-ink">
+                <a
+                  href={document.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  className="label link-underline text-ink-soft hover:text-ink"
+                >
                   {document.label} &middot; {document.note}
-                </Link>
+                </a>
               </li>
             ))}
           </ul>
