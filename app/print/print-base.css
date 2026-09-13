@@ -1,0 +1,252 @@
+/* Shared print foundation — sheets, chrome, section grid, tables. */
+
+@page {
+  margin: 0;
+  background: #ffffff;
+}
+
+@media print {
+  html,
+  body,
+  .print-root,
+  .sheet,
+  .sheet--flow {
+    background: #ffffff !important;
+    margin: 0;
+    text-rendering: geometricPrecision;
+  }
+}
+
+.print-root {
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  text-rendering: geometricPrecision;
+  orphans: 3;
+  widows: 3;
+  font-size: 9.5pt;
+  line-height: 1.55;
+}
+
+.print-root h1,
+.print-root h2,
+.print-root h3,
+.print-root .text-h1,
+.print-root .text-h2,
+.print-root .text-h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.print-root .label {
+  font-family: var(--font-body);
+  font-size: 6.5pt;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.print-root .caption {
+  font-size: 7.5pt;
+  line-height: 1.45;
+}
+
+.print-root .text-display {
+  font-size: 48pt;
+}
+
+.print-root .text-h1 {
+  font-size: 34pt;
+}
+
+.print-root .text-h2 {
+  font-size: 26pt;
+}
+
+.print-root .text-h3 {
+  font-size: 13pt;
+}
+
+.print-root .text-lead {
+  font-size: 11pt;
+  line-height: 1.5;
+}
+
+.print-root .text-body {
+  font-size: 9.5pt;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Sheets                                                                     */
+/* -------------------------------------------------------------------------- */
+
+.sheet {
+  position: relative;
+  box-sizing: border-box;
+  break-after: page;
+  page-break-after: always;
+  padding: 18mm 18mm 20mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet:last-child {
+  break-after: auto;
+  page-break-after: auto;
+}
+
+.sheet--portrait {
+  width: 210mm;
+  min-height: 297mm;
+}
+
+.sheet--landscape {
+  width: 297mm;
+  min-height: 210mm;
+  padding: 15mm 18mm 16mm;
+}
+
+.sheet--cover {
+  justify-content: space-between;
+}
+
+.sheet--flow {
+  display: block;
+  min-height: 0 !important;
+  height: auto !important;
+  break-after: auto;
+  page-break-after: auto;
+  background: #ffffff;
+}
+
+.sheet--flow.sheet--landscape {
+  padding-bottom: 22mm;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Chrome                                                                     */
+/* -------------------------------------------------------------------------- */
+
+.print-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--color-line);
+  padding-bottom: 3mm;
+  margin-bottom: 8mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.sheet:not(.sheet--flow) .print-footer {
+  margin-top: auto;
+}
+
+.sheet--flow .print-footer {
+  margin-top: 12mm;
+}
+
+.print-footer {
+  padding-top: 4mm;
+  border-top: 1px solid var(--color-line);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Sections & tables                                                          */
+/* -------------------------------------------------------------------------- */
+
+.print-root li,
+.print-root figure,
+.print-root .no-break {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.print-root .print-section {
+  display: block;
+  overflow: visible;
+  margin-top: 7mm;
+  padding-top: 2.5mm;
+  border-top: 1px solid var(--color-line);
+  break-inside: auto;
+  page-break-inside: auto;
+}
+
+.print-root .print-section:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.print-root .print-section-label {
+  margin: 0 0 2.5mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.print-root .print-section-body {
+  margin-left: 0;
+}
+
+.sheet--landscape .print-section-body {
+  max-width: 170mm;
+}
+
+.print-root .print-section--table {
+  break-inside: auto;
+  page-break-inside: auto;
+}
+
+.print-root .print-table-kicker {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.print-root .print-data-table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  vertical-align: top;
+}
+
+.print-root table thead {
+  display: table-row-group;
+}
+
+.print-root .print-data-table thead {
+  display: table-header-group;
+}
+
+.print-root table {
+  break-inside: auto;
+  page-break-inside: auto;
+}
+
+.print-root table tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.print-root table td,
+.print-root table th {
+  break-inside: auto;
+  page-break-inside: auto;
+  vertical-align: top;
+}
+
+.print-root,
+.print-root * {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}

@@ -1,0 +1,230 @@
+@import 'tailwindcss';
+
+/* =============================================================================
+   Design tokens
+   Near-monochrome by intent: the work supplies every colour on the page. Type
+   is the only ornament, so the scale below is wide and the steps are large.
+   ========================================================================== */
+
+@theme {
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #1a1a1a;
+  --color-paper: #f4f2ef;
+  --color-paper-warm: #ebe7e2;
+  --color-mute: #8a8580;
+  --color-line: #cfc9c2;
+  --color-line-dark: #2a2a2a;
+
+  /* The -loaded variables are supplied by next/font in app/layout.tsx. The
+     fallbacks keep the print routes readable if a font ever fails to load. */
+  --font-display: var(--font-display-loaded), 'Times New Roman', Georgia, serif;
+  --font-body:
+    var(--font-body-loaded), -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Helvetica, Arial, sans-serif;
+
+  /* Fluid scale. Display sizes are deliberately larger than comfortable. */
+  --text-label: 0.6875rem;
+  --text-caption: 0.75rem;
+  --text-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+  --text-lead: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  --text-h3: clamp(1.375rem, 1.2rem + 0.8vw, 2rem);
+  --text-h2: clamp(1.875rem, 1.4rem + 2vw, 3.25rem);
+  --text-h1: clamp(2.75rem, 1.5rem + 5vw, 6.5rem);
+  --text-display: clamp(3.5rem, 1rem + 11vw, 13rem);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* =============================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  * {
+    min-width: 0;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* Lenis drives scrolling on the site; native smooth scroll would fight it. */
+    scroll-behavior: auto;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.65;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Lenis requirements. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+}
+
+/* =============================================================================
+   Utilities
+   ========================================================================== */
+
+@utility label {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+@utility caption {
+  font-size: var(--text-caption);
+  line-height: 1.5;
+  color: var(--color-mute);
+}
+
+/* The page gutter. Every full-width section uses this so the broken grid still
+   shares one outer margin. */
+@utility gutter {
+  padding-inline: 1.25rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2.5rem;
+  }
+
+  @media (width >= 90rem) {
+    padding-inline: 4rem;
+  }
+}
+
+/* Twelve columns at desktop, four at mobile. The asymmetry lives in the column
+   spans chosen per element, not in a different grid per section. */
+@utility editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 1.25rem;
+  row-gap: 1.25rem;
+
+  @media (width >= 48rem) {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 1.5rem;
+  }
+}
+
+/* Optical hang for large display type, which otherwise looks inset. */
+@utility optical-hang {
+  margin-left: -0.055em;
+}
+
+@utility rule-top {
+  border-top: 1px solid var(--color-line);
+}
+
+@utility link-underline {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.1em;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+
+  &:hover::after,
+  &[data-active='true']::after {
+    transform: scaleX(1);
+  }
+}
+
+/* =============================================================================
+   CV
+   One label/content row pattern shared by the /cv page and the print route, so
+   the PDF and the website cannot drift apart.
+   ========================================================================== */
+
+@layer components {
+  .cv-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+    padding-top: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  .cv-row:first-child {
+    margin-top: 0;
+  }
+
+  @media (width >= 48rem) {
+    .cv-row {
+      grid-template-columns: 12rem minmax(0, 1fr);
+      gap: 2.5rem;
+      padding-top: 1.25rem;
+      margin-top: 2.5rem;
+    }
+  }
+
+  .cv-row-label {
+    padding-top: 0.2rem;
+  }
+}
+
+/* =============================================================================
+   Reduced motion
+   All entrance animations are opacity/transform only, so disabling them wholesale
+   is safe and leaves content fully visible.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

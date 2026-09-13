@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+dist/
+
+# Generated documents. Rebuild with `npm run pdfs`.
+public/documents/*.pdf
+
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+.env*.local
+.qa/

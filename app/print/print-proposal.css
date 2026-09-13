@@ -1,0 +1,377 @@
+/* Proposal PDF — JNU cover, academic body, timeline & budget tables. */
+
+@page proposalCover {
+  margin: 0;
+}
+
+@page proposalBody {
+  margin: 22mm 0 20mm;
+}
+
+@page proposalEditorial {
+  margin: 0;
+}
+
+.sheet--editorial-cover {
+  page: proposalEditorial;
+}
+
+.proposal-print .proposal-cover-contact {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 8.5pt;
+  line-height: 1.5;
+  color: var(--color-ink-soft);
+  text-rendering: geometricPrecision;
+  letter-spacing: 0;
+}
+
+.proposal-print .proposal-cover-contact li {
+  margin: 0.5mm 0;
+}
+
+.proposal-print .proposal-cover-email {
+  font-weight: 500;
+  color: var(--color-ink);
+  letter-spacing: 0.01em;
+}
+
+.proposal-print .proposal-cover-location {
+  color: var(--color-mute);
+}
+
+.sheet--formal-cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 297mm;
+  padding: 22mm 18mm;
+  text-align: center;
+  break-after: page;
+  page-break-after: always;
+  page: proposalCover;
+}
+
+.formal-cover-inner {
+  width: 100%;
+  max-width: 140mm;
+  margin: 0 auto;
+}
+
+.formal-cover-logo {
+  display: block;
+  width: 18mm;
+  height: auto;
+  margin: 0 auto 6mm;
+}
+
+.formal-cover-university {
+  font-family: var(--font-body);
+  font-size: 14pt;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.formal-cover-department {
+  margin-top: 2mm;
+  font-size: 10pt;
+  line-height: 1.4;
+}
+
+.formal-cover-title {
+  margin-top: 10mm;
+  font-family: var(--font-display);
+  font-size: 16pt;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.formal-cover-meta {
+  margin-top: 8mm;
+  display: grid;
+  gap: 3mm;
+  font-size: 10pt;
+}
+
+.formal-cover-meta dt {
+  font-weight: 600;
+}
+
+.formal-cover-meta dd {
+  margin: 0;
+}
+
+.formal-cover-block {
+  margin-top: 8mm;
+}
+
+.formal-cover-block-label {
+  font-size: 10pt;
+  font-weight: 600;
+  margin-bottom: 2mm;
+}
+
+.formal-cover-party {
+  font-size: 9.5pt;
+  line-height: 1.55;
+}
+
+.formal-cover-party p {
+  margin: 0;
+}
+
+.formal-cover-date {
+  margin-top: 10mm;
+  font-size: 9.5pt;
+}
+
+/* Flowing body — 3 body sheets with clean pagination. */
+.proposal-print-body.sheet--flow {
+  padding-top: 0;
+  padding-bottom: 0;
+  page: proposalBody;
+  font-family: var(--font-body);
+  font-size: 9pt;
+  line-height: 1.48;
+}
+
+/*
+ * Playwright adds its own running header in the top margin.
+ * The browser's repeated thead on page-spanning tables collides with it,
+ * so disable the auto-repeat inside the proposal.
+ */
+.proposal-print .print-data-table thead {
+  display: table-row-group;
+}
+
+/* Page break markers for purposeful 5-page structure */
+.proposal-print .print-section--break-before {
+  break-before: page;
+  page-break-before: always;
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.proposal-print .print-section {
+  margin-top: 0;
+  padding-top: 3.5mm;
+}
+
+.proposal-print .print-section--compact {
+  padding-top: 2.5mm;
+}
+
+.proposal-print .print-section--closing {
+  padding-top: 2.5mm;
+}
+
+.proposal-print .print-section-label {
+  margin: 0 0 1.5mm;
+}
+
+.proposal-print .print-section-label .text-h3,
+.proposal-print .print-section-label h3 {
+  font-family: var(--font-display);
+  font-size: 13pt;
+  line-height: 1.15;
+}
+
+/* Abstract — lead in display face, body in neutral grotesque. */
+.proposal-print .proposal-abstract-lead {
+  font-family: var(--font-display);
+  font-size: 10.5pt;
+  line-height: 1.48;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.proposal-print .proposal-body-text {
+  font-family: var(--font-body);
+  font-size: 9pt;
+  line-height: 1.48;
+  margin: 0;
+}
+
+.proposal-print .proposal-body-text + .proposal-body-text,
+.proposal-print .proposal-abstract-lead + .proposal-body-text {
+  margin-top: 2mm;
+}
+
+/* Numbered aims list */
+.proposal-print .proposal-aims {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.proposal-print .proposal-aims li {
+  display: flex;
+  gap: 3mm;
+  padding: 0.6mm 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.proposal-print .proposal-aim-index {
+  font-family: var(--font-body);
+  font-size: 6.5pt;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-mute);
+  flex-shrink: 0;
+  padding-top: 0.3mm;
+}
+
+.proposal-print .proposal-aim-text {
+  font-size: 9pt;
+  line-height: 1.45;
+}
+
+/* Methodology subheads */
+.proposal-print .print-method-block {
+  margin-top: 2mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.proposal-print .print-method-block:first-child {
+  margin-top: 0;
+}
+
+.proposal-print .print-method-block h4 {
+  font-family: var(--font-body);
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.proposal-print .print-method-block p {
+  font-size: 8.75pt;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.proposal-print .print-method-block p + p {
+  margin-top: 1mm;
+}
+
+/* Timeline & budget tables */
+.proposal-print .print-section--timeline {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.proposal-print .print-data-table th {
+  font-family: var(--font-body);
+  font-size: 6.5pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+  padding: 2mm 3mm 1mm 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.proposal-print .print-data-table td {
+  font-family: var(--font-body);
+  font-size: 8.25pt;
+  line-height: 1.35;
+  padding: 0.9mm 3mm 0.9mm 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.proposal-print .print-data-table th.text-right,
+.proposal-print .print-data-table td.text-right {
+  text-align: right;
+}
+
+.proposal-print .print-data-table th.text-center,
+.proposal-print .print-data-table td.text-center {
+  text-align: center;
+}
+
+.proposal-print .proposal-timeline-day {
+  font-family: var(--font-body);
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
+.proposal-print .print-data-table ul {
+  margin: 0;
+  padding-left: 3.5mm;
+}
+
+.proposal-print .print-data-table li {
+  font-size: 8.25pt;
+  line-height: 1.35;
+  margin: 0.1mm 0;
+}
+
+.proposal-print .proposal-budget-total td {
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-ink);
+}
+
+.proposal-print .proposal-budget-note {
+  font-family: var(--font-body);
+  font-size: 7.75pt;
+  line-height: 1.4;
+  color: var(--color-mute);
+  margin-top: 2.2mm;
+  margin-bottom: 3.5mm;
+  text-rendering: geometricPrecision;
+}
+
+/* Closing sections — tighter so References stays on the same page. */
+.proposal-print .proposal-list {
+  margin: 0;
+  padding-left: 4mm;
+}
+
+.proposal-print .proposal-list li {
+  font-size: 8.75pt;
+  line-height: 1.4;
+  margin: 0.5mm 0;
+}
+
+.proposal-print .proposal-references {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.proposal-print .proposal-references li {
+  font-size: 8pt;
+  line-height: 1.35;
+  color: var(--color-ink-soft);
+  padding: 0.4mm 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.proposal-print .proposal-references li:last-child {
+  border-bottom: none;
+}
+
+/* Keep outcomes, evaluation, and references together on one full page. */
+.proposal-print .proposal-references--inline {
+  margin-top: 2mm;
+  padding-top: 1.2mm;
+  border-top: 1px solid var(--color-line);
+}
+
+.proposal-print .print-section--closing {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}

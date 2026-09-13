@@ -1,0 +1,7 @@
+<!DOCTYPE html><html><body style="margin:0;background:#000">
+<video id="v" src="file:///home/maizied/Downloads/VID-20260912-WA0003.mp4" muted playsinline></video>
+<script>
+  const v = document.getElementById('v');
+  v.addEventListener('loadeddata', () => { v.currentTime = 2; });
+  v.addEventListener('seeked', () => { document.title = 'ready'; });
+</script></body></html>

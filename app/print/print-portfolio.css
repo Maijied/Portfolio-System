@@ -1,0 +1,243 @@
+/* Portfolio PDF — landscape editorial spreads. */
+
+.portfolio-print {
+  font-family: var(--font-body);
+  font-size: 9.5pt;
+  line-height: 1.55;
+}
+
+.portfolio-print .sheet {
+  box-sizing: border-box;
+  break-before: page !important;
+  page-break-before: always !important;
+  break-after: page !important;
+  page-break-after: always !important;
+}
+
+.portfolio-print .sheet:first-child {
+  break-before: auto !important;
+  page-break-before: auto !important;
+}
+
+.portfolio-print .sheet:last-child {
+  break-after: auto !important;
+  page-break-after: auto !important;
+}
+
+.portfolio-print .sheet:not(.sheet--flow) {
+  height: 210mm;
+  max-height: 210mm;
+  overflow: hidden;
+}
+
+.portfolio-print .sheet--flow {
+  break-before: page !important;
+  page-break-before: always !important;
+  break-after: page !important;
+  page-break-after: always !important;
+}
+
+.portfolio-print .text-h1,
+.portfolio-print .text-h2,
+.portfolio-print .text-h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.portfolio-print .label {
+  font-family: var(--font-body);
+  font-size: 6.5pt;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.portfolio-print .caption {
+  font-size: 7.5pt;
+  line-height: 1.45;
+}
+
+.portfolio-print .print-section {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 2rem;
+  margin-top: 4.5mm;
+  padding-top: 2.5mm;
+  border-top: 1px solid var(--color-line);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.portfolio-print .print-section:first-child,
+.portfolio-print .print-section:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.portfolio-print .print-section-label {
+  grid-column: span 4 / span 4;
+}
+
+.portfolio-print .print-section-label h3 {
+  font-family: var(--font-display);
+  font-size: 13pt;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-ink);
+}
+
+.portfolio-print .print-section-body {
+  grid-column: span 8 / span 8;
+  font-size: 8.75pt;
+  line-height: 1.48;
+  color: var(--color-ink-soft);
+}
+
+.portfolio-print .print-section-body p {
+  margin-bottom: 2mm;
+}
+
+.portfolio-print .print-section-body p:last-child {
+  margin-bottom: 0;
+}
+
+.portfolio-print .print-method-block h4,
+.portfolio-print .print-section-label .label {
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Formal Academic Cover (A4 Landscape, matching Proposal 1st page)           */
+/* -------------------------------------------------------------------------- */
+
+.portfolio-print .sheet.portfolio-formal-cover {
+  padding: 12mm 16mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portfolio-formal-inner {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--color-line);
+  box-sizing: border-box;
+  padding: 8mm 14mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.portfolio-formal-logo {
+  display: block;
+  width: 15mm;
+  height: auto;
+  margin: 0 auto 3mm;
+}
+
+.portfolio-formal-university {
+  font-family: var(--font-body);
+  font-size: 13.5pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  line-height: 1.2;
+}
+
+.portfolio-formal-department {
+  font-family: var(--font-body);
+  font-size: 9pt;
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  margin-top: 1.5mm;
+  letter-spacing: 0.03em;
+}
+
+.portfolio-formal-title-block {
+  margin: 2mm 0;
+}
+
+.portfolio-formal-title {
+  font-family: var(--font-display);
+  font-size: 24pt;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  line-height: 1.1;
+}
+
+.portfolio-formal-subtitle {
+  font-family: var(--font-body);
+  font-size: 9.5pt;
+  color: var(--color-ink-soft);
+  margin-top: 2mm;
+  max-width: 65ch;
+  line-height: 1.4;
+}
+
+.portfolio-formal-parties-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12mm;
+  width: 100%;
+  max-width: 180mm;
+  text-align: left;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  padding: 3.5mm 0;
+}
+
+.portfolio-formal-party-card {
+  font-size: 8.75pt;
+  line-height: 1.45;
+  color: var(--color-ink-soft);
+}
+
+.portfolio-formal-label {
+  font-family: var(--font-body);
+  font-size: 6.5pt;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-mute);
+  margin-bottom: 1.5mm;
+}
+
+.portfolio-formal-name {
+  font-size: 10pt;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.portfolio-formal-id {
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.portfolio-formal-footer {
+  font-size: 8pt;
+  color: var(--color-mute);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Conclusion Sheet Styles                                                    */
+/* -------------------------------------------------------------------------- */
+
+.portfolio-conclusion-sheet .print-section {
+  display: block;
+  margin-top: 0;
+  padding-top: 2.5mm;
+  border-top: 1px solid var(--color-line);
+}
+
+.portfolio-conclusion-sheet .print-section:first-child {
+  padding-top: 0;
+  border-top: none;
+}
